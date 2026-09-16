@@ -1,4 +1,4 @@
-const CACHE = "frequenz-v2";
+const CACHE = "frequenz-v3";
 const APP_SHELL = [
   "./",
   "./index.html",

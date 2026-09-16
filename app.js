@@ -141,7 +141,7 @@ class AudioEngine {
 
   async init() {
     if (this.ctx) {
-      if (this.ctx.state === "suspended") await this.ctx.resume();
+      if (this.ctx.state !== "running") await this.ctx.resume();
       return;
     }
     const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -163,14 +163,25 @@ class AudioEngine {
     this.ambientBus.connect(this.master);
     this.master.connect(this.compressor);
     this.compressor.connect(this.ctx.destination);
+
+    // Older and current iOS Safari versions may keep a new AudioContext
+    // suspended until a source is started directly inside the tap event.
+    const unlockSource = this.ctx.createBufferSource();
+    unlockSource.buffer = this.ctx.createBuffer(1, 1, this.ctx.sampleRate);
+    unlockSource.connect(this.ctx.destination);
+    unlockSource.start(0);
     await this.ctx.resume();
   }
 
   async start() {
-    await this.init();
+    // Do not wait before creating the oscillators. On iOS the complete audio
+    // graph must be started during the user's original tap gesture.
+    const ready = this.init();
     this.restoreMaster();
     this.buildTone();
     state.activeAmbiences.forEach((id) => this.startAmbience(id));
+    await ready;
+    if (this.ctx.state !== "running") await this.ctx.resume();
   }
 
   pause() {
