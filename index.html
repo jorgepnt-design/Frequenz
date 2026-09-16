@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#050a16" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Frequenz" />
+    <meta name="description" content="Binaurale Beats, Solfeggio-Frequenzen und entspannende Klangwelten." />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Frequenz</title>
+  </head>
+  <body>
+    <div class="background-glow" aria-hidden="true"></div>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"><i></i></span>
+          <div>
+            <h1>Frequenz</h1>
+            <p>Binaurale Beats</p>
+          </div>
+        </div>
+        <button class="icon-button" id="infoButton" type="button" aria-label="Informationen und Installation">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 10.8v5.4M12 7.5h.01"></path></svg>
+        </button>
+      </header>
+
+      <section class="now-card" aria-labelledby="nowTitle">
+        <div class="orb-wrap" aria-hidden="true">
+          <div class="orb" id="orb"><span></span></div>
+          <div class="wave-ring ring-one"></div>
+          <div class="wave-ring ring-two"></div>
+          <div class="wave-ring ring-three"></div>
+        </div>
+        <div class="now-copy">
+          <span class="eyebrow" id="nowCategory">ENTSPANNUNG</span>
+          <h2 id="nowTitle">Sanfte Ruhe</h2>
+          <p id="nowDescription">Alpha · 10 Hz</p>
+          <div class="live-frequency"><span></span><strong id="liveFrequency">220 / 230 Hz</strong></div>
+        </div>
+        <button class="favorite-button" id="favoriteButton" type="button" aria-label="Als Favorit speichern" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8-4.8-8-11A4.5 4.5 0 0 1 12 6.6a4.5 4.5 0 0 1 8 2.9c0 6.2-8 11-8 11Z"></path></svg>
+        </button>
+      </section>
+
+      <section class="section" aria-labelledby="programsTitle">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">WÄHLE DEIN ZIEL</span>
+            <h2 id="programsTitle">Programme</h2>
+          </div>
+          <button class="text-button" id="favoritesFilter" type="button" aria-pressed="false">Favoriten</button>
+        </div>
+        <div class="program-list" id="programList" role="list"></div>
+      </section>
+
+      <section class="section frequency-studio" aria-labelledby="studioTitle">
+        <div class="section-heading compact">
+          <div>
+            <span class="section-kicker">DEIN KLANG</span>
+            <h2 id="studioTitle">Frequenz-Studio</h2>
+          </div>
+          <span class="headphone-label">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14v-2a8 8 0 0 1 16 0v2M4 14v5h4v-7H6a2 2 0 0 0-2 2ZM20 14v5h-4v-7h2a2 2 0 0 1 2 2Z"></path></svg>
+            Kopfhörer
+          </span>
+        </div>
+
+        <div class="mode-tabs" role="group" aria-label="Klangart">
+          <button class="mode-tab active" data-mode="binaural" type="button">Binaural</button>
+          <button class="mode-tab" data-mode="isochronic" type="button">Isochron</button>
+          <button class="mode-tab" data-mode="pure" type="button">Reiner Ton</button>
+        </div>
+
+        <div class="control-card">
+          <div class="range-header">
+            <label for="beatRange">Beat-Frequenz</label>
+            <output id="beatValue" for="beatRange">10 Hz</output>
+          </div>
+          <input id="beatRange" class="range" type="range" min="0.5" max="50" step="0.5" value="10" />
+          <div class="range-scale"><span>0,5</span><span>Delta</span><span>Theta</span><span>Alpha</span><span>Beta</span><span>Gamma</span><span>50</span></div>
+
+          <div class="divider"></div>
+
+          <div class="range-header">
+            <label for="carrierRange">Trägerfrequenz</label>
+            <output id="carrierValue" for="carrierRange">225 Hz</output>
+          </div>
+          <input id="carrierRange" class="range range-secondary" type="range" min="80" max="500" step="1" value="225" />
+          <div class="range-scale two"><span>tief · 80 Hz</span><span>hoch · 500 Hz</span></div>
+        </div>
+
+        <div class="subheading-row">
+          <h3>Solfeggio</h3>
+          <span>Reine Frequenzen</span>
+        </div>
+        <div class="frequency-chips" id="solfeggioList" role="list"></div>
+      </section>
+
+      <section class="section" aria-labelledby="soundscapesTitle">
+        <div class="section-heading compact">
+          <div>
+            <span class="section-kicker">MISCHEN &amp; ENTSPANNEN</span>
+            <h2 id="soundscapesTitle">Klangwelten</h2>
+          </div>
+          <button class="text-button" id="clearAmbience" type="button">Alle aus</button>
+        </div>
+        <div class="soundscape-grid" id="soundscapeGrid"></div>
+        <div class="ambient-volume" id="ambientVolumeWrap">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6L8 10H4ZM17 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"></path></svg>
+          <label for="ambientVolume">Klangwelt-Lautstärke</label>
+          <input id="ambientVolume" class="range slim" type="range" min="0" max="1" step="0.01" value="0.3" />
+          <output id="ambientVolumeValue" for="ambientVolume">30 %</output>
+        </div>
+      </section>
+
+      <section class="section timer-section" aria-labelledby="timerTitle">
+        <div class="section-heading compact">
+          <div>
+            <span class="section-kicker">SANFT AUSBLENDEN</span>
+            <h2 id="timerTitle">Timer</h2>
+          </div>
+          <span class="timer-status" id="timerStatus">Ohne Ende</span>
+        </div>
+        <div class="timer-options" id="timerOptions" role="group" aria-label="Timer auswählen"></div>
+      </section>
+
+      <footer class="app-footer">
+        <p>Für ein räumliches Ergebnis Kopfhörer verwenden. Keine medizinische Behandlung.</p>
+      </footer>
+    </main>
+
+    <aside class="player" id="player" aria-label="Audioplayer">
+      <div class="player-progress"><span id="progressBar"></span></div>
+      <div class="player-content">
+        <button class="play-button" id="playButton" type="button" aria-label="Wiedergabe starten">
+          <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 9 6-9 6V6Z"></path></svg>
+          <svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v12M16 6v12"></path></svg>
+        </button>
+        <div class="player-track">
+          <strong id="playerTitle">Sanfte Ruhe</strong>
+          <span id="playerMeta">Bereit · Ohne Ende</span>
+        </div>
+        <button class="volume-button" id="volumeButton" type="button" aria-label="Lautstärke einstellen" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6L8 10H4ZM17 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"></path></svg>
+        </button>
+      </div>
+      <div class="master-volume" id="masterVolumePanel">
+        <label for="masterVolume">Gesamtlautstärke</label>
+        <input id="masterVolume" class="range slim" type="range" min="0" max="1" step="0.01" value="0.38" />
+        <output id="masterVolumeValue" for="masterVolume">38 %</output>
+      </div>
+    </aside>
+
+    <dialog class="modal" id="infoDialog">
+      <div class="modal-handle" aria-hidden="true"></div>
+      <div class="modal-header">
+        <div>
+          <span class="section-kicker">FREQUENZ</span>
+          <h2>Deine Klang-App</h2>
+        </div>
+        <button class="icon-button" data-close-dialog type="button" aria-label="Schließen">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"></path></svg>
+        </button>
+      </div>
+      <div class="modal-content">
+        <div class="info-row">
+          <span class="info-icon">＋</span>
+          <div><strong>Auf dem iPhone installieren</strong><p>In Safari auf „Teilen“ und danach „Zum Home-Bildschirm“ tippen.</p></div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon">L · R</span>
+          <div><strong>Binaurale Beats</strong><p>Links und rechts werden leicht unterschiedliche Frequenzen abgespielt. Dafür sind Kopfhörer erforderlich.</p></div>
+        </div>
+        <div class="info-row warning">
+          <span class="info-icon">!</span>
+          <div><strong>Sicher hören</strong><p>Beginne leise. Nicht beim Autofahren verwenden. Bei Beschwerden, Epilepsie oder Tinnitus vorher ärztlichen Rat einholen.</p></div>
+        </div>
+      </div>
+      <button class="primary-button" data-close-dialog type="button">Verstanden</button>
+    </dialog>
+
+    <dialog class="modal headphone-dialog" id="headphoneDialog">
+      <div class="modal-hero-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14v-2a8 8 0 0 1 16 0v2M4 14v5h4v-7H6a2 2 0 0 0-2 2ZM20 14v5h-4v-7h2a2 2 0 0 1 2 2Z"></path></svg>
+      </div>
+      <h2>Kopfhörer aufsetzen</h2>
+      <p>Nur so entsteht der räumliche binaurale Effekt. Starte mit niedriger Lautstärke.</p>
+      <button class="primary-button" id="confirmPlayback" type="button">Wiedergabe starten</button>
+      <button class="secondary-button" data-close-dialog type="button">Abbrechen</button>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js" defer></script>
+  </body>
+</html>
