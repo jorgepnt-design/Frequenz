@@ -157,7 +157,7 @@ class AudioEngine {
     this.compressor.attack.value = 0.025;
     this.compressor.release.value = 0.32;
     this.master.gain.value = this.masterVolume;
-    this.toneBus.gain.value = 0.48;
+    this.toneBus.gain.value = 0.58;
     this.ambientBus.gain.value = this.ambientVolume;
     this.toneBus.connect(this.master);
     this.ambientBus.connect(this.master);
@@ -572,10 +572,6 @@ function togglePlayback() {
     pausePlayback();
     return;
   }
-  if (state.mode === "binaural" && !state.headphoneConfirmed) {
-    els.headphoneDialog.showModal();
-    return;
-  }
   startPlayback();
 }
 
@@ -610,7 +606,7 @@ function tickTimer() {
   const remaining = Math.max(0, state.timerRemaining - elapsed);
   const total = state.timerMinutes * 60;
   els.timerStatus.textContent = formatTime(remaining);
-  els.playerMeta.textContent = `${state.mode === "binaural" ? "Binaural" : state.mode === "isochronic" ? "Isochron" : "Reiner Ton"} · ${formatTime(remaining)}`;
+  els.playerMeta.textContent = `${state.mode === "binaural" ? "Binaural" : state.mode === "isochronic" ? "Lautsprecher" : "Reiner Ton"} · ${formatTime(remaining)}`;
   els.progressBar.style.width = `${Math.min(100, ((total - remaining) / total) * 100)}%`;
   if (remaining <= 5 && remaining > 4.7) audio.fadeOut(5);
   if (remaining <= 0) {
@@ -625,7 +621,7 @@ function updateTimerStatus() {
 }
 
 function updatePlayerMeta() {
-  const modeLabel = state.mode === "binaural" ? "Binaural" : state.mode === "isochronic" ? "Isochron" : "Reiner Ton";
+  const modeLabel = state.mode === "binaural" ? "Binaural" : state.mode === "isochronic" ? "Lautsprecher" : "Reiner Ton";
   const timerText = state.timerMinutes ? formatTime(state.timerRemaining || state.timerMinutes * 60) : "Ohne Ende";
   els.playerMeta.textContent = `${state.playing ? modeLabel : "Bereit"} · ${timerText}`;
 }
